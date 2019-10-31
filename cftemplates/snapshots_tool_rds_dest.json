@@ -183,6 +183,12 @@
 				"AlarmActions": [{
 					"Ref": "topicCopyFailedDest"
 				}],
+				"OKActions": [{
+					"Ref": "topicCopyFailedDest"
+				}],
+				"InsufficientDataActions": [{
+					"Ref": "topicCopyFailedDest"
+				}],
 				"Dimensions": [{
 					"Name": "StateMachineArn",
 					"Value": {
@@ -205,6 +211,12 @@
 				"Statistic": "Sum",
 				"Threshold": "2.0",
 				"AlarmActions": [{
+					"Ref": "topicDeleteOldFailedDest"
+				}],
+				"OKActions": [{
+					"Ref": "topicDeleteOldFailedDest"
+				}],
+				"InsufficientDataActions": [{
 					"Ref": "topicDeleteOldFailedDest"
 				}],
 				"Dimensions": [{

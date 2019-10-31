@@ -205,6 +205,12 @@
 				"AlarmActions": [{
 					"Ref": "topicBackupsFailed"
 				}],
+				"OKActions": [{
+					"Ref": "topicBackupsFailed"
+				}],
+				"InsufficientDataActions": [{
+					"Ref": "topicBackupsFailed"
+				}],
 				"Dimensions": [{
 					"Name": "StateMachineArn",
 					"Value": {
@@ -229,6 +235,12 @@
 				"AlarmActions": [{
 					"Ref": "topicShareFailed"
 				}],
+				"OKActions": [{
+					"Ref": "topicShareFailed"
+				}],
+				"InsufficientDataActions": [{
+					"Ref": "topicShareFailed"
+				}],
 				"Dimensions": [{
 					"Name": "StateMachineArn",
 					"Value": {
@@ -251,6 +263,12 @@
 				"Statistic": "Sum",
 				"Threshold": "2.0",
 				"AlarmActions": [{
+					"Ref": "topicDeleteOldFailed"
+				}],
+				"OKActions": [{
+					"Ref": "topicDeleteOldFailed"
+				}],
+				"InsufficientDataActions": [{
 					"Ref": "topicDeleteOldFailed"
 				}],
 				"Dimensions": [{
