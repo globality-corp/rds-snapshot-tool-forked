@@ -111,7 +111,7 @@
 				"Bucket": "snapshots-tool-rds-ap-northeast-2"
 			},
 			"ap-southeast-1": {
-				"Bucket": "snapshots-tool-rds-ap-southeast-1-real"
+				"Bucket": "snapshots-tool-rds-ap-southeast-1"
 			}
 		}
 	},
@@ -171,15 +171,22 @@
 		"alarmcwCopyFailedDest": {
 			"Type": "AWS::CloudWatch::Alarm",
 			"Properties": {
+				"AlarmDescription": "If copy failed more than twice in last 1.5 hours, this alert is raised.",
 				"ActionsEnabled": "true",
 				"ComparisonOperator": "GreaterThanOrEqualToThreshold",
-				"EvaluationPeriods": "1",
+				"EvaluationPeriods": "3",
 				"MetricName": "ExecutionsFailed",
 				"Namespace": "AWS/States",
-				"Period": "3600",
+				"Period": "1800",
 				"Statistic": "Sum",
-				"Threshold": "1.0",
+				"Threshold": "2.0",
 				"AlarmActions": [{
+					"Ref": "topicCopyFailedDest"
+				}],
+				"OKActions": [{
+					"Ref": "topicCopyFailedDest"
+				}],
+				"InsufficientDataActions": [{
 					"Ref": "topicCopyFailedDest"
 				}],
 				"Dimensions": [{
@@ -194,15 +201,22 @@
 			"Type": "AWS::CloudWatch::Alarm",
 			"Condition": "DeleteOld",
 			"Properties": {
+				"AlarmDescription": "If delete old backups failed more than twice in last 3 hours, this alert is raised.",
 				"ActionsEnabled": "true",
 				"ComparisonOperator": "GreaterThanOrEqualToThreshold",
-				"EvaluationPeriods": "2",
+				"EvaluationPeriods": "3",
 				"MetricName": "ExecutionsFailed",
 				"Namespace": "AWS/States",
 				"Period": "3600",
 				"Statistic": "Sum",
 				"Threshold": "2.0",
 				"AlarmActions": [{
+					"Ref": "topicDeleteOldFailedDest"
+				}],
+				"OKActions": [{
+					"Ref": "topicDeleteOldFailedDest"
+				}],
+				"InsufficientDataActions": [{
 					"Ref": "topicDeleteOldFailedDest"
 				}],
 				"Dimensions": [{

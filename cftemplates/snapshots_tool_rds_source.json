@@ -123,7 +123,7 @@
 				"Bucket": "snapshots-tool-rds-ap-northeast-2"
 			},
 			"ap-southeast-1": {
-				"Bucket": "snapshots-tool-rds-ap-southeast-1-real"
+				"Bucket": "snapshots-tool-rds-ap-southeast-1"
 			}
 		}
 	},
@@ -193,15 +193,22 @@
 		"alarmcwBackupsFailed": {
 			"Type": "AWS::CloudWatch::Alarm",
 			"Properties": {
+				"AlarmDescription": "If daily backup failed, this alert is raised.",
 				"ActionsEnabled": "true",
 				"ComparisonOperator": "GreaterThanOrEqualToThreshold",
 				"EvaluationPeriods": "1",
 				"MetricName": "ExecutionsFailed",
 				"Namespace": "AWS/States",
-				"Period": "3600",
+				"Period": "86400",
 				"Statistic": "Sum",
 				"Threshold": "1.0",
 				"AlarmActions": [{
+					"Ref": "topicBackupsFailed"
+				}],
+				"OKActions": [{
+					"Ref": "topicBackupsFailed"
+				}],
+				"InsufficientDataActions": [{
 					"Ref": "topicBackupsFailed"
 				}],
 				"Dimensions": [{
@@ -216,15 +223,22 @@
 			"Condition": "Share",
 			"Type": "AWS::CloudWatch::Alarm",
 			"Properties": {
+				"AlarmDescription": "If backup sharing failed more than twice in last 30 minutes, this alert is raised.",
 				"ActionsEnabled": "true",
 				"ComparisonOperator": "GreaterThanOrEqualToThreshold",
-				"EvaluationPeriods": "2",
+				"EvaluationPeriods": "3",
 				"MetricName": "ExecutionsFailed",
 				"Namespace": "AWS/States",
-				"Period": "3600",
+				"Period": "600",
 				"Statistic": "Sum",
 				"Threshold": "2.0",
 				"AlarmActions": [{
+					"Ref": "topicShareFailed"
+				}],
+				"OKActions": [{
+					"Ref": "topicShareFailed"
+				}],
+				"InsufficientDataActions": [{
 					"Ref": "topicShareFailed"
 				}],
 				"Dimensions": [{
@@ -239,15 +253,22 @@
 			"Condition": "DeleteOld",
 			"Type": "AWS::CloudWatch::Alarm",
 			"Properties": {
+				"AlarmDescription": "If delete old failed more than twice in last 3 hours, this alert is raised.",
 				"ActionsEnabled": "true",
 				"ComparisonOperator": "GreaterThanOrEqualToThreshold",
-				"EvaluationPeriods": "2",
+				"EvaluationPeriods": "3",
 				"MetricName": "ExecutionsFailed",
 				"Namespace": "AWS/States",
 				"Period": "3600",
 				"Statistic": "Sum",
 				"Threshold": "2.0",
 				"AlarmActions": [{
+					"Ref": "topicDeleteOldFailed"
+				}],
+				"OKActions": [{
+					"Ref": "topicDeleteOldFailed"
+				}],
+				"InsufficientDataActions": [{
 					"Ref": "topicDeleteOldFailed"
 				}],
 				"Dimensions": [{
