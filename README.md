@@ -96,6 +96,40 @@ As published, these CloudFormation templates will pull the zip files for the Lam
 
 1. Be sure to use the correct bucket name in the `CodeBucket` parameter when launching the stack in both accounts.
 
+##  Using with terraform
+
+`module` work with terraform repos only i.e the one containing "tf" files. To make this repository behave like terraform one, `output.tf` file is added.
+
+Finally, your calling module might look like this, all together:
+
+
+```
+module "my_rds_tool_repo" {
+  source = "git::https://git.mycompany.org/rds-snapshot-tool.git"
+}
+
+output "rds_dest_template" {
+  value = module.my_rds_tool_repo.cf_template_rds_source
+}
+
+output "rds_dest_template" {
+  value = module.my_rds_tool_repo.cf_template_rds_dest
+}
+
+resource "aws_cloudformation_stack" "network" {
+  name = "my-stack"
+
+  parameters = {
+    mykey = "xxx"
+    ...
+  }
+
+  template_body = module.my_rds_tool_repo.cf_template_rds_source
+  # template_body = module.my_rds_tool_repo.cf_template_rds_dest
+}
+
+```
+
 ## Updating
 
 This tool is fundamentally stateless. The state is mainly in the tags on the snapshots themselves and the parameters to the CloudFormation stack. If you make changes to the parameters or make changes to the Lambda function code, it is best to delete the stack and then launch the stack again. 
