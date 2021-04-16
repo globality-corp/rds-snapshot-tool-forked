@@ -321,7 +321,8 @@
 									"rds:ModifyDBSnapshotAttribute",
 									"rds:DescribeDBSnapshotAttributes",
 									"rds:ListTagsForResource",
-									"rds:CopyDBSnapshot"
+									"rds:CopyDBSnapshot",
+									"rds:AddTagsToResource"
 								],
 								"Resource": "*"
 							}]
