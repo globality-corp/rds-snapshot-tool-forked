@@ -55,7 +55,7 @@
 			"Type": "String",
 			"AllowedValues": ["TRUE", "FALSE"],
 			"Default": "TRUE",
-			"Description": "Enable copying snapshots across accounts. Set to FALSE if your source snapshosts are not on a different account"
+			"Description": "Enable copying snapshots across accounts. Set to FALSE if your source snapshots are not on a different account"
 		}
 	},
 	"Conditions": {

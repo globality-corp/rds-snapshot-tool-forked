@@ -316,13 +316,14 @@ def paginate_api_call(client, api_call, objecttype, *args, **kwargs):
     return response
 
 
-def copy_local(snapshot_identifier, snapshot_object):
+def copy_local(snapshot_identifier, snapshot_object, tags=dict()):
     client = boto3.client('rds', region_name=_REGION)
 
-    tags = [{
-            'Key': 'CopiedBy',
-            'Value': 'Snapshot Tool for RDS'
-        }]
+    if not tags:
+        tags = [{
+                'Key': 'CopiedBy',
+                'Value': 'Snapshot Tool for RDS'
+            }]
 
     if snapshot_object['Encrypted']:
         logger.info('Copying encrypted snapshot %s locally' % snapshot_identifier)
@@ -446,11 +447,17 @@ def copy_or_create_db_snapshot(
             'Value': latest_snapshot['DBSnapshotIdentifier'],
         }
     )
-
-    return client.copy_db_snapshot(
-        SourceDBSnapshotIdentifier=latest_snapshot['DBSnapshotIdentifier'],
-        TargetDBSnapshotIdentifier=snapshot_identifier,
-        Tags=snapshot_tags,
-        CopyTags=False,
+    
+    # return client.copy_db_snapshot(
+    #     SourceDBSnapshotIdentifier=latest_snapshot['DBSnapshotIdentifier'],
+    #     TargetDBSnapshotIdentifier=snapshot_identifier,
+    #     Tags=snapshot_tags,
+    #     CopyTags=False,
+    # )
+    return client.copy_local(
+        latest_snapshot['DBSnapshotIdentifier'],
+        latest_snapshot,
+        snapshot_tags
     )
+
 

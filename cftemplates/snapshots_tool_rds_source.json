@@ -63,6 +63,11 @@
 			"Description": "Set to TRUE to create backups from automated backups by copying them first. Else set it to FALSE to create out of running instance",
 			"AllowedValues": ["TRUE", "FALSE"]
 		},
+		"KmsKeySource": {
+			"Type": "String",
+			"Default": "None",
+			"Description": "Set to the ARN for the KMS key in the SOURCE region to re-encrypt encrypted snapshots. Leave None if you are not using encryption"
+		},
 		"TaggedInstance": {
 			"Type": "String",
 			"Default": "FALSE",
@@ -368,6 +373,9 @@
 						},
 						"USE_AUTOMATED_BACKUP": {
 							"Ref": "UseAutomatedBackup"
+						},
+						"KMS_KEY_SOURCE_REGION": {
+							"Ref": "KmsKeySource"
 						}
 					}
 				},
