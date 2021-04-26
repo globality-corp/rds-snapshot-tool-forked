@@ -333,6 +333,44 @@
 							}]
 						}
 
+					},
+					{
+						"PolicyName": "inline_policy_snapshot_rds_kms_access",
+						"PolicyDocument": {
+							"Version": "2012-10-17",
+							"Statement": [{
+									"Sid": "AllowUseOfTheKey",
+									"Effect": "Allow",
+									"Action": [
+										"kms:Encrypt",
+										"kms:Decrypt",
+										"kms:ReEncrypt*",
+										"kms:GenerateDataKey*",
+										"kms:DescribeKey"
+									],
+									"Resource": [
+										"*"
+									]
+								},
+								{
+									"Sid": "AllowAttachmentOfPersistentResources",
+									"Effect": "Allow",
+									"Action": [
+										"kms:CreateGrant",
+										"kms:ListGrants",
+										"kms:RevokeGrant"
+									],
+									"Resource": [
+										"*"
+									],
+									"Condition": {
+										"Bool": {
+											"kms:GrantIsForAWSResource": true
+										}
+									}
+								}
+							]
+						}
 					}
 				]
 			}
